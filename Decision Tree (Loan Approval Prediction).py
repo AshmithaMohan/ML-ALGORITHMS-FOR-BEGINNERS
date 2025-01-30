@@ -20,6 +20,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 dt = DecisionTreeClassifier()
 dt.fit(X_train, y_train)
 
-# Predict & Evaluate
+# Predict & Evaluate the decision tree
+
 y_pred = dt.predict(X_test)
 print("Decision Tree Accuracy:", accuracy_score(y_test, y_pred))
