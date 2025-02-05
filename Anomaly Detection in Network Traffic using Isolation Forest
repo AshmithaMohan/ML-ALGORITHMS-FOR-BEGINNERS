@@ -1,0 +1,18 @@
+from sklearn.ensemble import IsolationForest
+import numpy as np
+
+# Sample network traffic data (features might include packet sizes, timings, etc.)
+data = np.random.normal(0, 1, (100, 5))  # Normal network traffic (100 samples, 5 features)
+outliers = np.random.normal(5, 1, (5, 5))  # Outliers (5 samples with high abnormal values)
+
+# Combine normal and outlier data
+network_data = np.vstack([data, outliers])
+
+# Fit Isolation Forest to detect anomalies
+model = IsolationForest(contamination=0.05)  # 5% contamination (anomalous data points)
+model.fit(network_data)
+
+# Predict anomalies (1 for normal, -1 for anomalous)
+predictions = model.predict(network_data)
+
+print("Anomaly Predictions:", predictions)
