@@ -1,0 +1,18 @@
+from sklearn.neighbors import NearestNeighbors
+import numpy as np
+
+# Sample user content interaction data (features: age, browsing time, genre preferences)
+user_data = np.array([[25, 120, 0.8], [34, 200, 0.5], [22, 150, 0.9], [40, 180, 0.3]])  # Users (4 users with 3 features)
+content_data = np.array([[1, 0.6], [2, 0.8], [3, 0.5], [4, 0.9], [5, 0.7]])  # Content items (5 items with 2 features)
+
+# Apply KNN to recommend content
+knn = NearestNeighbors(n_neighbors=3)
+knn.fit(user_data)
+
+# Find the nearest users to the current user (to recommend content based on similar behavior)
+user_index = 2  # User index to find recommendations for
+distances, indices = knn.kneighbors([user_data[user_index]])
+
+# Recommend content based on nearest users
+recommended_content = content_data[indices.flatten()]
+print("Recommended Content:", recommended_content)
