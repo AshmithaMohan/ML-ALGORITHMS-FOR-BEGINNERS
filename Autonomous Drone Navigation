@@ -1,0 +1,28 @@
+import numpy as np
+
+# Define environment
+grid_size = 10
+Q_table = np.zeros((grid_size, grid_size, 4))
+
+# Define parameters
+alpha = 0.1
+gamma = 0.9
+epsilon = 0.1
+
+# Q-learning update function
+def update_q_table(state, action, reward, next_state):
+    best_next_action = np.argmax(Q_table[next_state])
+    Q_table[state][action] += alpha * (reward + gamma * best_next_action - Q_table[state][action])
+
+# Training loop
+for episode in range(1000):
+    state = (0, 0)
+    done = False
+    while not done:
+        action = np.random.choice(4) if np.random.rand() < epsilon else np.argmax(Q_table[state])
+        next_state = (state[0] + (action == 1) - (action == 3), state[1] + (action == 2) - (action == 0))
+        reward = -1 if next_state in obstacles else 10 if next_state == goal else 0
+        update_q_table(state, action, reward, next_state)
+        state = next_state
+        if state == goal:
+            done = True
